@@ -19,7 +19,7 @@ public class MyClientSocket {
 
     public MyClientSocket() {
         try {
-            socket = new Socket("localhost", 1077);
+            socket = new Socket("localhost", 2000);
             // 메시지 쓰는 버퍼 달기
             writer = new BufferedWriter(
                 new OutputStreamWriter(socket.getOutputStream()));
