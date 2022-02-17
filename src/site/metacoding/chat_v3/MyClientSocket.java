@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class MyClientSocket {
 
+    String username;
+
     Socket socket;
 
     // 스레드
@@ -21,7 +23,7 @@ public class MyClientSocket {
     public MyClientSocket() {
         try {
             // 1. 소켓 연결
-            socket = new Socket("192.168.0.84", 2000); // 루프백 주소 127.0.0.1 선생님 주소 192.168.0.132
+            socket = new Socket("192.168.0.132", 2000); // 루프백 주소 127.0.0.1 선생님 주소 192.168.0.132
 
             // 2. 스캐너 및 버퍼 달기
             sc = new Scanner(System.in);
@@ -30,6 +32,14 @@ public class MyClientSocket {
             
             // 3. 새로운 스레드 (읽기 전용)         
             new Thread(new 읽기전담스레드()).start();
+
+            // 4. 메인 스레드
+            // 최초 메시지는 username으로 받아야 함.
+            System.out.println("아이디를 입력하세요.");
+            username = sc.nextLine();
+            writer.write(username + "\n"); // 버퍼에 담기 // 데이터 전송할 때 \n 필요함.
+            writer.flush(); // 버퍼에 담긴 것을 stream으로 흘려보내기. // 통신의 시작
+            System.out.println(username + " 이 서버로 전송되었습니다.");
 
             // 4. 메인 스레드 (쓰기 전용)
             while(true){
@@ -52,7 +62,7 @@ public class MyClientSocket {
             try {
                 while(true){
                     String inputData = reader.readLine();
-                    System.out.println("받은 메시지 : " + inputData);
+                    System.out.println(inputData);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
